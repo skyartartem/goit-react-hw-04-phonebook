@@ -14,45 +14,15 @@ const initialContacts = [
 ];
 
 export const App = () => {
-  // state = {
-  //   contacts: [],
-  //   filter: '',
-  // };
-
-  const [contacts, setContacts] = useState([]);
+  
+  const [contacts, setContacts] = useState(
+    () => JSON.parse(window.localStorage.getItem(CONTACTS)) ?? initialContacts
+  );
   const [filter, setFilter] = useState('');
 
-
   useEffect(() => {
-    const savedContacts = localStorage.getItem(CONTACTS);
-    if (savedContacts !== null) {
-      const parsedContacts = JSON.parse(savedContacts);
-      setContacts(parsedContacts)
-    }
-    else { setContacts(initialContacts);}
-  },[]);
-  // componentDidMount() {
-  //   const savedContacts = localStorage.getItem(CONTACTS);
-  //   if (savedContacts !== null) {
-  //     const parsedContacts = JSON.parse(savedContacts);
-  //     this.setState({contacts: parsedContacts})
-  //   }
-  //   else { this.setState({ contacts: initialContacts });}
-  // }
-
-  useEffect(() => {
-    if (!localStorage.getItem(CONTACTS)){return}
-    localStorage.setItem(CONTACTS, JSON.stringify(contacts));
+    window.localStorage.setItem(CONTACTS, JSON.stringify(contacts));
   }, [contacts]);
-
-  // componentDidUpdate(_, prevState) {
-  //   if (prevState.contacts !== this.state.contacts) {
-  //     localStorage.setItem(
-  //       CONTACTS,
-  //       JSON.stringify(this.state.contacts)
-  //     );
-  //   }
-  // }
 
   const onChangeInput = evt => {
     setFilter(evt.currentTarget.value);
@@ -79,7 +49,6 @@ export const App = () => {
   };
 
   const filterFu = () => {
-    // const { contacts, filter } = this.state;
     const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
@@ -87,7 +56,6 @@ export const App = () => {
   };
 
   const delContact = id => {
-    // const { contacts } = this.state;
     const filtred = contacts.filter(item => item.id !== id);
     setContacts( filtred );
   };
