@@ -1,31 +1,34 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import css from './ContactForm.module.css';
 import PropTypes from 'prop-types';
 
-export class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+export const ContactForm =({addContact})=> {
+  // state = {
+  //   name: '',
+  //   number: '',
+  // };
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  resetForm = () => {
-    this.setState({ name: '', number: '' });
-  };
+  // resetForm = () => {
+  //   this.setState({ name: '', number: '' });
+  // };
 
-  onChangeInput = evt => {
+  const onChangeInput = evt => {
     const { name, value } = evt.currentTarget;
-    this.setState({ [name]: value });
+    name === 'name' ? setName(value) : setNumber(value);
   };
 
-  render() {
+  
     return (
       <>
         <form
           className={css.formstyle}
           onSubmit={evt => {
             evt.preventDefault();
-            this.props.addContact(this.state);
-            this.resetForm();
+            addContact({ name, number });
+            setName("");
+            setNumber("");
           }}
         >
           <label className={css.label}>
@@ -33,8 +36,8 @@ export class ContactForm extends Component {
             <br />
             <input
               className={css.input}
-              onChange={this.onChangeInput}
-              value={this.state.name}
+              onChange={onChangeInput}
+              value={name}
               type="text"
               name="name"
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -48,8 +51,8 @@ export class ContactForm extends Component {
             <br />
             <input
               className={css.input}
-              onChange={this.onChangeInput}
-              value={this.state.number}
+              onChange={onChangeInput}
+              value={number}
               type="tel"
               name="number"
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -64,7 +67,7 @@ export class ContactForm extends Component {
         </form>
       </>
     );
-  }
+  
 }
 
 ContactForm.propTypes = {
