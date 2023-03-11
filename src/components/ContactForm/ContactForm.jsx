@@ -3,23 +3,15 @@ import css from './ContactForm.module.css';
 import PropTypes from 'prop-types';
 
 export const ContactForm =({addContact})=> {
-  // state = {
-  //   name: '',
-  //   number: '',
-  // };
+  
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
-  // resetForm = () => {
-  //   this.setState({ name: '', number: '' });
-  // };
 
   const onChangeInput = evt => {
     const { name, value } = evt.currentTarget;
     name === 'name' ? setName(value) : setNumber(value);
   };
 
-  
     return (
       <>
         <form
